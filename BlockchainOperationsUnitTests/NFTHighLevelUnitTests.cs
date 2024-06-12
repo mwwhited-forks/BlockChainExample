@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BlockchainOperationsUnitTests
+namespace BlockchainOperationsUnitTests;
+
+[TestClass]
+public class NFTHighLevelUnitTests
 {
-    [TestClass]
-    public class NFTHighLevelUnitTests
+    [TestMethod]
+    public void TestSimpleNFT()
     {
-
-        [TestMethod]
-        public void TestSimpleNFT()
-        {
-
-        }
-
     }
 }

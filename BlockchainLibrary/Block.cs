@@ -1,38 +1,25 @@
-﻿using BlockchainLibrary.ChainOperations;
-using System;
-using System.Security.Cryptography;
+﻿using System;
 
-namespace BlockchainLibrary
+namespace BlockchainLibrary;
+
+public record Block
 {
-    public class Block
+    public byte[] BlockHash { get; init; }
+    public string HashR => BitConverter.ToString(BlockHash);
+    public byte[] PreviousBlockHash { get; init; }
+    public string PreviousHashR => BitConverter.ToString(PreviousBlockHash);
+    public string Data { get; init; }
+
+    /// <summary>
+    /// Only used in the advanced example.
+    /// </summary>
+    public int Nonce { get; init; }
+
+    public Block(byte[] blockHash, byte[] previousBlockHash, string data, int nonce = 0)
     {
-
-        private byte[] _BlockHash;
-        private byte[] _PreviousBlockHash;
-        private string _Data;
-        private int _nonce;
-
-        public byte[] BlockHash { get { return _BlockHash; } }
-        public string HashR { get { return BitConverter.ToString(_BlockHash); } }
-
-        public byte[] PreviousBlockHash { get { return _PreviousBlockHash; } }
-        public string PreviousHashR { get { return BitConverter.ToString(_PreviousBlockHash); } }
-
-        public string Data { get { return _Data; } }
-
-        /// <summary>
-        /// Only used in the advanced example.
-        /// </summary>
-        public int Nonce { get { return _nonce; } }
-
-        public Block(byte[] BlockHash, byte[] PreviousBlockHash, string Data, int Nonce = 0)
-        {
-
-            _BlockHash = BlockHash;
-            _PreviousBlockHash = PreviousBlockHash;
-            _Data = Data;
-            _nonce = Nonce;
-        }
-
+        BlockHash = blockHash;
+        PreviousBlockHash = previousBlockHash;
+        Data = data;
+        Nonce = nonce;
     }
 }

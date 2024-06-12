@@ -1,35 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NFT_Library
+namespace NFT_Library;
+
+public record NFT
 {
-    public class NFT
-    {
+    public string TransactionString { get; init; }
 
-        private string _TransactionString;
-
-        public string TransactionString { get { return _TransactionString; } }
-
-        public NFT(string From, string Action, string To, byte[] NFTImage)
-        {
-
-            _TransactionString = From +
-                              Environment.NewLine +
-                              Action +
-                              Environment.NewLine +
-                              To +
-                              Environment.NewLine
-                              +
-                              BitConverter.ToString(NFTImage);
-        }
-
-        
-        
-    }
- }
+    public NFT(string From, string Action, string To, byte[] NFTImage) =>
+        TransactionString = string.Join(Environment.NewLine, From, Action, To, BitConverter.ToString(NFTImage));
+}
 
 
 
