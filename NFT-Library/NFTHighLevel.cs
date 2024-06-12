@@ -5,6 +5,6 @@ namespace NFT_Library;
 
 public static class NFTHighLevel
 {
-    public static string MintNFT(string From, string Action, string To, string Filename) =>
-        new NFT(From, Action, To, SHA1.HashData(File.ReadAllBytes(Filename))).TransactionString;
+    public static string MintNFT(string from, string action, string to, string filename) =>
+        new NFT(from, action, to, SHA1.HashData(File.ReadAllBytes(filename))).TransactionString;
 }

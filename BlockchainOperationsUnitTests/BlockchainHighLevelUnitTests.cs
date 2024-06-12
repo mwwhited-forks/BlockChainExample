@@ -11,122 +11,115 @@ public class BlockchainHighLevelUnitTests
     [TestMethod]
     public void EngineTestCreateGenesisBlock()
     {
-        BlockchainHighLevel BE = new();
-        Assert.AreEqual("GenesisBlock", BE.Blockchain.First.Value.Data);
+        var be = new BlockchainHighLevel();
+        Assert.AreEqual("GenesisBlock", be.Blockchain.First.Value.Data);
     }
 
     [TestMethod]
     public void VerifyBlockSearch()
     {
-        BlockchainHighLevel BE = new();
-        BE.AddBlock("SecondTest");
+        var be = new BlockchainHighLevel();
+        be.AddBlock("SecondTest");
         //Get the data for the second Block
-        Block SecondBlock = BE.Blockchain.Last.Value;
-        BE.AddBlock("ThirdTest");
-        Block FoundBlock = BE.FindBlock(SecondBlock.BlockHash);
+        var SecondBlock = be.Blockchain.Last.Value;
+        be.AddBlock("ThirdTest");
+        var FoundBlock = be.FindBlock(SecondBlock.BlockHash);
         Assert.AreEqual("SecondTest", FoundBlock.Data);
     }
 
     [TestMethod]
     public void TamperWithSecondBlockAndTest()
     {
-        BlockchainHighLevel BE = new();
-        BE.AddBlock("SecondTest");
+        var be = new BlockchainHighLevel();
+        be.AddBlock("SecondTest");
         //Get the data for the second Block
-        Block SecondBlock = BE.Blockchain.Last.Value;
-        BE.AddBlock("ThirdTest");
+        var secondBlock = be.Blockchain.Last.Value;
+        be.AddBlock("ThirdTest");
 
         //Get the second block to tamper with it
-        Block FoundBlock = BE.FindBlock(SecondBlock.BlockHash);
-        LinkedListNode<Block> FoundBlockNode = new(FoundBlock);
+        var foundBlock = be.FindBlock(secondBlock.BlockHash);
+        var foundBlockNode = new LinkedListNode<Block>(foundBlock);
 
         //Construct a tampered block
-        Block TamperedBlock = new(FoundBlock.BlockHash, FoundBlockNode.Value.PreviousBlockHash, "Tampered Block");
-        BE.Blockchain.AddBefore(BE.Blockchain.Find(FoundBlock), TamperedBlock);
+        var tamperedBlock = new Block(foundBlock.BlockHash, foundBlockNode.Value.PreviousBlockHash, "Tampered Block");
+        be.Blockchain.AddBefore(be.Blockchain.Find(foundBlock), tamperedBlock);
 
         //Delete the true block
-        BE.Blockchain.Remove(BE.Blockchain.FindLast(FoundBlock));
+        be.Blockchain.Remove(be.Blockchain.FindLast(foundBlock));
 
         ///Find the next node after the tampered Block
-        Block FindTamperedBlock = BE.FindBlock(TamperedBlock.BlockHash);
-        LinkedListNode<Block> FindNodeAfterTamperedBlock = new(FoundBlock);
+        var findTamperedBlock = be.FindBlock(tamperedBlock.BlockHash);
+        var findNodeAfterTamperedBlock = new LinkedListNode<Block>(foundBlock);
 
         //Verify the tampered block
-        bool BlockIsAuthentic = BE.VerifyBlock(TamperedBlock, BE.Blockchain.First.Value, FindNodeAfterTamperedBlock.Value);
-        Assert.IsFalse(BlockIsAuthentic);
+        bool blockIsAuthentic = be.VerifyBlock(tamperedBlock, be.Blockchain.First.Value, findNodeAfterTamperedBlock.Value);
+        Assert.IsFalse(blockIsAuthentic);
 
     }
 
     [TestMethod]
     public void VerifyNoTamperOnSecondBlockTest()
     {
-        BlockchainHighLevel BE = new();
-        BE.AddBlock("SecondTest");
+        var be = new BlockchainHighLevel();
+        be.AddBlock("SecondTest");
         //Get the data for the second Block
-        Block SecondBlock = BE.Blockchain.Last.Value;
-        BE.AddBlock("ThirdTest");
+        var secondBlock = be.Blockchain.Last.Value;
+        be.AddBlock("ThirdTest");
 
         //Get the second block
-        Block FoundBlock = BE.FindBlock(SecondBlock.BlockHash);
+        var foundBlock = be.FindBlock(secondBlock.BlockHash);
 
         //Verify the second block
-        bool BlockIsAuthentic = BE.VerifyBlock(FoundBlock, BE.Blockchain.First.Value, BE.Blockchain.Last.Value);
-        Assert.IsTrue(BlockIsAuthentic);
+        var blockIsAuthentic = be.VerifyBlock(foundBlock, be.Blockchain.First.Value, be.Blockchain.Last.Value);
+        Assert.IsTrue(blockIsAuthentic);
     }
 
 
     [TestMethod]
     public void VerifyLastNode()
     {
-        BlockchainHighLevel BE = new();
-        BE.AddBlock("SecondTest");
+        var be = new BlockchainHighLevel();
+        be.AddBlock("SecondTest");
+        be.AddBlock("ThirdTest");
 
-        BE.AddBlock("ThirdTest");
-
-        bool Verified = BE.VerifyBlock(BE.Blockchain.Last.Value, BE.Blockchain.Last.Previous.Value, null);
-        Assert.IsTrue(Verified);
-
-
+        bool verified = be.VerifyBlock(be.Blockchain.Last.Value, be.Blockchain.Last.Previous.Value, null);
+        Assert.IsTrue(verified);
     }
-
-
 
     [TestMethod]
     public void TamperSecondBlockAndFindDuringVerificationOfBlockChainTest()
     {
-        BlockchainHighLevel BE = new();
+        var be = new BlockchainHighLevel();
 
-        BE.AddBlock("SecondTest");
+        be.AddBlock("SecondTest");
         //Get the data for the second Block
-        Block SecondBlock = BE.Blockchain.Last.Value;
+        var secondBlock = be.Blockchain.Last.Value;
 
-        BE.AddBlock("ThirdTest");
+        be.AddBlock("ThirdTest");
 
         //Get the second block to tamper with it
-        Block FoundBlock = BE.FindBlock(SecondBlock.BlockHash);
-        LinkedListNode<Block> FoundBlockNode = new(FoundBlock);
+        var foundBlock = be.FindBlock(secondBlock.BlockHash);
+        var foundBlockNode = new LinkedListNode<Block>(foundBlock);
 
         //Construct a tampered block
-        Block TamperedBlock = new(FoundBlock.BlockHash, FoundBlockNode.Value.PreviousBlockHash, "Tampered Block");
-        BE.Blockchain.AddBefore(BE.Blockchain.Find(FoundBlock), TamperedBlock);
+        var tamperedBlock = new Block(foundBlock.BlockHash, foundBlockNode.Value.PreviousBlockHash, "Tampered Block");
+        be.Blockchain.AddBefore(be.Blockchain.Find(foundBlock), tamperedBlock);
 
         //Delete the true block
-        BE.Blockchain.Remove(BE.Blockchain.FindLast(FoundBlock));
+        be.Blockchain.Remove(be.Blockchain.FindLast(foundBlock));
 
-        bool TamperedBlockResult = BE.VerifyBlock(TamperedBlock, BE.Blockchain.First.Value, BE.Blockchain.Last.Value);
-        Assert.IsFalse(TamperedBlockResult);
-
+        bool tamperedBlockResult = be.VerifyBlock(tamperedBlock, be.Blockchain.First.Value, be.Blockchain.Last.Value);
+        Assert.IsFalse(tamperedBlockResult);
     }
 
     [TestMethod]
     public void CreateSimpleBlockHashTest()
     {
+        var perviousBlockHash = BitConverter.GetBytes(0);
+        var transactionData = "MyTransactionData";
+        var nonce = 0;
 
-        byte[] PerviousBlockHash = BitConverter.GetBytes(0);
-        string TransactionData = "MyTransactionData";
-        int nonce = 0;
-
-        BlockchainHighLevel BE = new();
-        BE.CreateASimpleBlockHash(PerviousBlockHash, TransactionData, nonce);
+        var be = new BlockchainHighLevel();
+        be.CreateASimpleBlockHash(perviousBlockHash, transactionData, nonce);
     }
 }

@@ -12,7 +12,11 @@ public class BlockchainHighLevel
         Blockchain.AddLast(BlockchainLowLevel.CreateGenesisBlock());
 
     public void AddBlock(string DataToAdd) =>
-        Blockchain.AddLast(new Block(BlockchainLowLevel.HashBlock(Blockchain.Last.Value.BlockHash, DataToAdd, 0), Blockchain.Last.Value.BlockHash, DataToAdd));
+        Blockchain.AddLast(
+            new Block(
+                BlockchainLowLevel.HashBlock(Blockchain.Last.Value.BlockHash, DataToAdd, 0),
+                Blockchain.Last.Value.BlockHash, DataToAdd)
+            );
 
     /// <summary>
     /// Find block by string hash
@@ -55,5 +59,4 @@ public class BlockchainHighLevel
     /// <returns></returns>
     public byte[] CreateASimpleBlockHash(byte[] PreviousBlockHash, string TransactionData, int Nonce) =>
         BlockchainLowLevel.HashBlock(PreviousBlockHash, TransactionData, Nonce);
-
 }

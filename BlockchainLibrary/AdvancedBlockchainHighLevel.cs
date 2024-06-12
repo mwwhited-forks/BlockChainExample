@@ -6,7 +6,6 @@ namespace BlockchainLibrary;
 
 public class AdvancedBlockchainHighLevel
 {
-    private readonly LinkedList<Block> _slockChain = new();
     private readonly List<string> _transactions = [];
     private readonly string _minerName;
     private static int _difficulty;
@@ -14,13 +13,13 @@ public class AdvancedBlockchainHighLevel
     private const int transactionLimit = 5; //<-- Change this to increase transaction limit
     private const int reward = 6; ///<-- Change this to increase reward
 
-    public LinkedList<Block> Blockchain => _slockChain;
+    public LinkedList<Block> Blockchain { get; } = new();
 
     public AdvancedBlockchainHighLevel(string MinerName, int Difficulty = 1)
     {
         _minerName = MinerName;
         _difficulty = Difficulty;
-        _slockChain.AddLast(BlockchainLowLevel.CreateGenesisBlock());
+        Blockchain.AddLast(BlockchainLowLevel.CreateGenesisBlock());
     }
 
     public void Add(string Transaction)
@@ -35,9 +34,9 @@ public class AdvancedBlockchainHighLevel
             //Set up the values to send to FindHash
             //Flatten the transactions
             string PreHashedTransactions = string.Join(Environment.NewLine, _transactions);
-            Block PreviousBlock = _slockChain.Last.Value;
+            Block PreviousBlock = Blockchain.Last.Value;
 
-            _slockChain.AddLast(FindHashAndReturnBlock(PreHashedTransactions, PreviousBlock));
+            Blockchain.AddLast(FindHashAndReturnBlock(PreHashedTransactions, PreviousBlock));
             _transactions.Clear(); //Reset the transaction
         }
     }
@@ -78,7 +77,6 @@ public class AdvancedBlockchainHighLevel
         byte Zero = 0;
         byte[] ZeroByteArray = new byte[_difficulty];
         Buffer.BlockCopy(Hash, 0, ZeroByteArray, 0, _difficulty);
-
 
         foreach (var item in ZeroByteArray)
         {
