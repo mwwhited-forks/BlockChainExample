@@ -7,7 +7,6 @@ namespace BlockchainOperationsUnitTests;
 [TestClass]
 public class AdvancedBlockchainHighLevelUnitTests
 {
-
     [TestMethod]
     public void TestFindABlockWithADifficultyOf1Test() //0
     {
@@ -49,10 +48,7 @@ public class AdvancedBlockchainHighLevelUnitTests
         ///The transaction should trigger automatically after the 4th transaction
         BE.Add("POSH Ryan pays 35BTC for a new shirt");
         Assert.AreEqual(0, BE.Blockchain.Last.Value.BlockHash[2]);
-
     }
-
-
 
     [TestMethod]
     public void VerifyTransactionTest()

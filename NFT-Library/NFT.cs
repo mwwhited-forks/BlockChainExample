@@ -6,8 +6,8 @@ public record NFT
 {
     public string TransactionString { get; init; }
 
-    public NFT(string from, string action, string to, byte[] nftImage) =>
-        TransactionString = string.Join(Environment.NewLine, from, action, to, BitConverter.ToString(nftImage));
+    public NFT(string From, string Action, string To, byte[] NFTImage) =>
+        TransactionString = string.Join(Environment.NewLine, From, Action, To, BitConverter.ToString(NFTImage));
 }
 
 

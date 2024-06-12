@@ -1,13 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BlockchainLibrary\BlockchainLibrary.csproj" />
-    <ProjectReference Include="..\NFT-Library\NFT-Library.csproj" />
-  </ItemGroup>
+
+	<ItemGroup>
+		<Content Include="images\*.bmp">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BlockchainLibrary\BlockchainLibrary.csproj" />
+		<ProjectReference Include="..\NFT-Library\NFT-Library.csproj" />
+	</ItemGroup>
 
 </Project>

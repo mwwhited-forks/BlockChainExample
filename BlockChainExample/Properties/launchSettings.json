@@ -2,6 +2,10 @@
   "profiles": {
     "BlockChainExample": {
       "commandName": "Project"
+    },
+    "NTF": {
+      "commandName": "Project",
+      "commandLineArgs": "\"you\" \"give stuff\" \"me\" \".\\images\\CirclebackJack.bmp\""
     }
   }
 }
